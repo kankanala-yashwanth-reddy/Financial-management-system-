@@ -1,5 +1,5 @@
 (function () {
-  window.FMS_API_BASE = window.FMS_API_BASE || "https://financial-management-system-rtrp-2.onrender.com";
+  window.FMS_API_BASE = window.FMS_API_BASE || "https://web-production-036e6.up.railway.app";
 
   function formatDetail(detail) {
     if (detail == null) return "Request failed";
