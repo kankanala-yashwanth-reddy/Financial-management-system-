@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard — Finance Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container inner">
+        <a class="logo" href="dashboard.html">Finance Management System</a>
+        <nav class="nav-links">
+          <a href="quiz-page1.html">Retake quiz</a>
+          <a href="login.html" id="nav-switch">Switch account</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container dash-layout">
+      <div class="dash-header">
+        <p class="eyebrow">Portfolio allocation</p>
+        <h1 class="page-title">Your diversification</h1>
+        <p class="page-sub">
+          Enter total savings to allocate. We use your saved risk tier from the three model inputs.
+          <span id="welcome-user"></span>
+        </p>
+      </div>
+
+      <section class="panel panel-form">
+        <div id="dash-alert" class="alert alert-error" role="alert"></div>
+        <form id="dash-form" class="dash-form-input">
+          <label for="savings">Savings amount (Rupees)</label>
+          <div class="input-group">
+            <input
+              id="savings"
+              name="savings"
+              type="number"
+              min="1"
+              step="0.01"
+              value="10000"
+              required
+            />
+            <button type="submit" class="btn btn-primary">
+              Calculate portfolio
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel panel-results">
+        <div id="placeholder" class="results-placeholder">
+          Submit an amount to see stocks, crypto, and bonds breakdown with interactive visualization.
+        </div>
+
+        <div id="results" class="results hidden">
+          <div class="results-header">
+            <span id="risk-pill" class="risk-pill">—</span>
+            <span id="summary-line" class="summary-text"></span>
+          </div>
+
+          <div class="chart-wrap">
+            <div class="chart-section">
+              <div id="donut" class="donut" role="img" aria-label="Portfolio allocation donut chart">
+                <div class="donut-inner">
+                  <span>Total</span>
+                  <strong id="donut-total">₹0</strong>
+                </div>
+              </div>
+              <div class="chart-legend">
+                <div class="legend-item">
+                  <span class="legend-color stocks"></span>
+                  <span>Stocks</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color crypto"></span>
+                  <span>Crypto</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color bonds"></span>
+                  <span>Bonds</span>
+                </div>
+              </div>
+            </div>
+            <div id="alloc-list" class="alloc-list"></div>
+          </div>
+
+          <div class="investment-guide">
+            <h3>Investment Guide by Risk Level</h3>
+            <div class="guide-content" id="guide-content"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">Allocations are illustrative; not financial advice.</div>
+    </footer>
+
+    <script src="api.js"></script>
+    <script>
+      (function () {
+        var uid = fmsStorage.getUserId();
+        if (!uid) {
+          window.location.replace("login.html");
+          return;
+        }
+
+        var uname = localStorage.getItem(fmsStorage.USERNAME);
+        if (uname) {
+          document.getElementById("welcome-user").textContent = "Signed in as " + uname + ".";
+        }
+
+        document.getElementById("nav-switch").addEventListener("click", function () {
+          fmsStorage.clear();
+        });
+
+        function fmtMoney(n) {
+          return (
+            "₹" +
+            Number(n).toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })
+          );
+        }
+
+        function riskClass(level) {
+          var l = String(level || "").toLowerCase();
+          if (l === "low") return "risk-low";
+          if (l === "high") return "risk-high";
+          return "risk-medium";
+        }
+
+        function setDonut(percentages) {
+          var s = percentages.stocks || 0;
+          var c = percentages.crypto || 0;
+          var el = document.getElementById("donut");
+          var a1 = s;
+          var a2 = s + c;
+          el.style.background =
+            "conic-gradient(#3b82f6 0% " +
+            a1 +
+            "%, #a855f7 " +
+            a1 +
+            "% " +
+            a2 +
+            "%, #10b981 " +
+            a2 +
+            "% 100%)";
+        }
+
+        var investmentGuides = {
+          "Low": {
+            description: "Conservative approach focused on capital preservation",
+            allocations: [
+              "Stocks (30%): Blue-chip companies and index funds for stable growth",
+              "Crypto (5%): Minimal exposure for diversification",
+              "Bonds (65%): Government and corporate bonds for steady income"
+            ]
+          },
+          "Medium": {
+            description: "Balanced portfolio with moderate growth potential",
+            allocations: [
+              "Stocks (50%): Mix of large-cap and mid-cap stocks",
+              "Crypto (15%): Emerging digital assets with moderate risk",
+              "Bonds (35%): Mix of government and corporate securities"
+            ]
+          },
+          "High": {
+            description: "Aggressive growth strategy with higher risk tolerance",
+            allocations: [
+              "Stocks (70%): Growth stocks and emerging market opportunities",
+              "Crypto (20%): Digital currencies and blockchain projects",
+              "Bonds (10%): High-yield bonds for income"
+            ]
+          }
+        };
+
+        function renderAllocations(data) {
+          var br = data.portfolio_breakdown;
+          var pct = data.percentages;
+          var rows = [
+            { key: "stocks", name: "Stocks", cls: "bar-stocks" },
+            { key: "crypto", name: "Crypto", cls: "bar-crypto" },
+            { key: "bonds", name: "Bonds", cls: "bar-bonds" },
+          ];
+          var list = document.getElementById("alloc-list");
+          list.innerHTML = "";
+          rows.forEach(function (r) {
+            var p = pct[r.key] || 0;
+            var amt = br[r.key] || 0;
+            var row = document.createElement("div");
+            row.className = "alloc-row";
+            row.innerHTML =
+              '<div class="name">' +
+              r.name +
+              '</div><div class="amount">' +
+              fmtMoney(amt) +
+              '</div><div class="bar-bg"><div class="bar-fill ' +
+              r.cls +
+              '" style="width:' +
+              p +
+              '%"></div></div><div style="grid-column:1/-1;font-size:0.8rem;color:var(--text-muted)">' +
+              p +
+              "% of portfolio</div>";
+            list.appendChild(row);
+          });
+        }
+
+        function renderInvestmentGuide(riskLevel) {
+          var guide = investmentGuides[riskLevel] || investmentGuides["Medium"];
+          var content = document.getElementById("guide-content");
+          var html = '<p class="guide-description">' + guide.description + '</p><div class="allocations">';
+          guide.allocations.forEach(function (alloc) {
+            html += '<div class="allocation-item"><strong>' + alloc.split("(")[0].trim() + '</strong><p>' + alloc + '</p></div>';
+          });
+          html += '</div>';
+          content.innerHTML = html;
+        }
+
+        document.getElementById("dash-form").addEventListener("submit", async function (e) {
+          e.preventDefault();
+          var alertEl = document.getElementById("dash-alert");
+          alertEl.classList.remove("show");
+          alertEl.textContent = "";
+
+          var savings = Number(document.getElementById("savings").value);
+          if (!(savings > 0)) {
+            alertEl.textContent = "Enter a positive savings amount.";
+            alertEl.classList.add("show");
+            return;
+          }
+
+          try {
+            var data = await fmsApiPost("/dashboard_data", {
+              user_id: uid,
+              savings_amount: savings,
+            });
+            document.getElementById("placeholder").style.display = "none";
+            var results = document.getElementById("results");
+            results.classList.remove("hidden");
+
+            var pill = document.getElementById("risk-pill");
+            pill.textContent = data.risk_level + " risk";
+            pill.className = "risk-pill " + riskClass(data.risk_level);
+            document.getElementById("summary-line").textContent =
+              "Recommended mix for " + fmtMoney(data.savings_amount) + " in savings.";
+
+            document.getElementById("donut-total").textContent = fmtMoney(data.savings_amount);
+            setDonut(data.percentages);
+            renderAllocations(data);
+            renderInvestmentGuide(data.risk_level);
+          } catch (x) {
+            alertEl.textContent = x.message || "Could not load dashboard data.";
+            alertEl.classList.add("show");
+            if (
+              typeof x.message === "string" &&
+              x.message.toLowerCase().indexOf("quiz") >= 0
+            ) {
+              setTimeout(function () {
+                window.location.href = "quiz.html";
+              }, 1200);
+            }
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

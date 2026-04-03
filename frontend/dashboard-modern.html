@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio Dashboard — Finance Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="dashboard.html" class="logo">Finance Management System</a>
+            </div>
+            <nav class="navbar-nav">
+                <a href="quiz-page1.html" class="nav-link">Retake Quiz</a>
+                <a href="login.html" id="logout-btn" class="nav-link nav-logout">Switch Account</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Dashboard -->
+    <main class="dashboard-main">
+        <div class="dashboard-container">
+            <!-- Hero Section -->
+            <section class="hero-section fade-in-up">
+                <div class="hero-content">
+                    <h1 class="hero-title">Welcome to Your Portfolio</h1>
+                    <p class="hero-subtitle">Create your personalized allocation based on your risk profile</p>
+                </div>
+                <div class="risk-profile-badge" id="riskBadge">
+                    <span class="badge-label">Your Risk Level:</span>
+                    <span class="badge-value" id="riskValue">—</span>
+                </div>
+            </section>
+
+            <!-- Input Section -->
+            <section class="input-section fade-in-up" style="animation-delay: 0.1s;">
+                <div class="input-card">
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <label for="savingsInput" class="input-label">Total Savings Amount</label>
+                            <div class="input-field-wrapper">
+                                <span class="currency-symbol">₹</span>
+                                <input
+                                    type="number"
+                                    id="savingsInput"
+                                    class="input-field"
+                                    placeholder="Enter amount"
+                                    min="1"
+                                    value="10000"
+                                    step="100"
+                                />
+                            </div>
+                        </div>
+                        <button type="button" id="calculateBtn" class="btn btn-primary btn-lg">
+                            <span class="btn-text">Diversify My Portfolio</span>
+                            <span class="btn-spinner hidden" id="btnSpinner">
+                                <i class="spinner"></i>
+                            </span>
+                        </button>
+                    </div>
+                    <p class="input-hint">Enter your total savings to see how your portfolio should be allocated</p>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section hidden" id="resultsSection">
+                <!-- Chart Section -->
+                <div class="chart-section fade-in-up">
+                    <div class="chart-card">
+                        <h2 class="chart-title">Portfolio Breakdown</h2>
+                        <div class="chart-container">
+                            <canvas id="donutChart" width="200" height="200"></canvas>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #3B82F6;"></span>
+                                <span class="legend-text">Stocks</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #A855F7;"></span>
+                                <span class="legend-text">Crypto</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background: #10B981;"></span>
+                                <span class="legend-text">Bonds</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Asset Breakdown Cards (Dynamically Generated) -->
+                <div class="assets-grid fade-in-up" id="assetsGrid" style="animation-delay: 0.2s;">
+                    <!-- Cards will be dynamically generated here -->
+                </div>
+
+                <!-- Investment Guide -->
+                <div class="investment-guide-section fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="guide-card">
+                        <h2 class="guide-title">Investment Strategy Guide</h2>
+                        <div id="guideContent" class="guide-content"></div>
+                    </div>
+                </div>
+
+                <!-- Summary Section -->
+                <div class="summary-section fade-in-up" style="animation-delay: 0.4s;">
+                    <div class="summary-card">
+                        <h3 class="summary-title">Total Portfolio Value</h3>
+                        <p class="summary-amount" id="summaryAmount">₹0</p>
+                        <p class="summary-note">Your diversified portfolio is ready to go!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Empty State -->
+            <section class="empty-state hidden" id="emptyState">
+                <div class="empty-state-content">
+                    <div class="empty-state-icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z"></path>
+                            <path d="M12 6v6l4 2"></path>
+                        </svg>
+                    </div>
+                    <h3 class="empty-state-title">Enter Your Savings Amount</h3>
+                    <p class="empty-state-text">Discover your personalized portfolio allocation</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <p>This allocation is illustrative and not financial advice. Please consult with a financial advisor.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="api.js"></script>
+    <script src="dashboard-app.js"></script>
+</body>
+</html>

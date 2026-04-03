@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Finance Management System</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="home.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <div class="brand" aria-label="Finance Management System">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Finance Management System</span>
+        </div>
+        <div class="top-actions" aria-label="Auth actions">
+          <a href="login.html" class="btn btn-outline">Sign In</a>
+          <a href="signup.html" class="btn btn-primary">Get Started</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <h1>Finance Management System for Smarter Risk Planning</h1>
+          <p>
+            Personalized planning based on your age, investment horizon, and risk tolerance—then a clear
+            breakdown you can use to allocate across stocks, crypto, and bonds.
+          </p>
+          <div class="hero-cta-row cta">
+            <a class="btn btn-primary" href="signup.html">Start Your Journey</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="features" aria-label="Key features">
+            <article class="feature-card">
+              <div
+                class="feature-icon"
+                style="background:var(--icon-blue); color:var(--icon-blue-stroke);"
+                aria-hidden="true"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 19V5" />
+                  <path d="M20 19H4" />
+                  <path d="M8 15l3-3 3 2 4-6" />
+                </svg>
+              </div>
+              <h3>Instant Portfolio Analysis</h3>
+              <p>Get a risk tier and map your savings into a simple asset split.</p>
+            </article>
+
+            <article class="feature-card">
+              <div
+                class="feature-icon"
+                style="background:var(--icon-green); color:var(--icon-green-stroke);"
+                aria-hidden="true"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2v20" />
+                  <path d="M17 7l-5-5-5 5" />
+                  <path d="M7 17l5 5 5-5" />
+                </svg>
+              </div>
+              <h3>Risk-Adjusted Strategies</h3>
+              <p>Allocation is guided by your profile—designed for learning and planning.</p>
+            </article>
+
+            <article class="feature-card">
+              <div
+                class="feature-icon"
+                style="background:var(--icon-orange); color:var(--icon-orange-stroke);"
+                aria-hidden="true"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 7v5l3 3" />
+                </svg>
+              </div>
+              <h3>Smart Diversification</h3>
+              <p>Visualize your mix across stocks, crypto, and bonds using your savings amount.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-title" style="margin-bottom: 12px;">
+            Why Finance Management System
+          </div>
+          <div class="features" aria-label="Additional benefits">
+            <article class="feature-card">
+              <div
+                class="feature-icon"
+                style="background:rgba(37,99,235,.10); color:rgba(29,78,216,1);"
+                aria-hidden="true"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 1v22" />
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7H14a3.5 3.5 0 0 1 0 7H7" />
+                </svg>
+              </div>
+              <h3>Guided inputs, not guesswork</h3>
+              <p>We collect three fields exactly like the dataset used to train the model.</p>
+            </article>
+
+            <article class="feature-card">
+              <div
+                class="feature-icon"
+                style="background:rgba(16,185,129,.10); color:rgba(16,185,129,1);"
+                aria-hidden="true"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 7h-9" />
+                  <path d="M14 11H5" />
+                  <path d="M19 16H5" />
+                  <path d="M5 3h14a2 2 0 0 1 2 2v16H3V5a2 2 0 0 1 2-2z" />
+                </svg>
+              </div>
+              <h3>Transparent allocation rules</h3>
+              <p>Your saved risk tier powers the dashboard breakdown into stocks, crypto, and bonds.</p>
+            </article>
+
+            <article class="feature-card">
+              <div
+                class="feature-icon"
+                style="background:rgba(249,115,22,.10); color:rgba(249,115,22,1);"
+                aria-hidden="true"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  <path d="M9 12l2 2 4-4" />
+                </svg>
+              </div>
+              <h3>Built for privacy by design</h3>
+              <p>Passwords are stored as hashes, and your risk tier is saved to SQLite.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container testimonials-head">
+          <h2>Trusted by Thousands</h2>
+          <p>Join investors who are already planning with clarity.</p>
+        </div>
+
+        <div class="container testimonials" aria-label="Testimonials">
+          <article class="t-card">
+            <div class="stars" aria-hidden="true">★★★★★</div>
+            <p class="t-quote">
+              The input flow was quick, and the dashboard breakdown is easy to understand.
+            </p>
+            <p class="t-name">Avery Johnson</p>
+          </article>
+          <article class="t-card">
+            <div class="stars" aria-hidden="true">★★★★★</div>
+            <p class="t-quote">
+              The risk tier feels aligned to my horizon, and the portfolio split makes sense.
+            </p>
+            <p class="t-name">Michael Chen</p>
+          </article>
+          <article class="t-card">
+            <div class="stars" aria-hidden="true">★★★★★</div>
+            <p class="t-quote">
+              Clean UI, fast results, and helpful guidance without overwhelming details.
+            </p>
+            <p class="t-name">Taylor Rivera</p>
+          </article>
+        </div>
+
+        <div class="container stats" aria-label="Service stats">
+          <div class="stat">
+            <div class="num">₹50,000</div>
+            <div class="label">Assets Under Management</div>
+          </div>
+          <div class="stat">
+            <div class="num">10+</div>
+            <div class="label">Active Users</div>
+          </div>
+          <div class="stat">
+            <div class="num">4.9/5</div>
+            <div class="label">Average rating</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="faq">
+        <div class="container">
+          <div class="faq-head">
+            <h2>Frequently Asked Questions</h2>
+            <p>Quick answers before you start.</p>
+          </div>
+
+          <div class="faq" role="region" aria-label="FAQ">
+            <div class="faq-item">
+              <button type="button" class="faq-question">
+                <span style="display:flex; align-items:center; gap:10px;">
+                  <span class="faq-icon" aria-hidden="true">?</span>
+                  Is the quiz data used exactly like training?
+                </span>
+                <span aria-hidden="true" style="color:var(--muted); font-weight:900;">+</span>
+              </button>
+              <div class="faq-answer">
+                Yes. The quiz captures the same three fields (age, investment horizon years, and risk tolerance score) used to train the Random Forest model.
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button type="button" class="faq-question">
+                <span style="display:flex; align-items:center; gap:10px;">
+                  <span class="faq-icon" aria-hidden="true">₹</span>
+                  How does the dashboard convert savings to allocation?
+                </span>
+                <span aria-hidden="true" style="color:var(--muted); font-weight:900;">+</span>
+              </button>
+              <div class="faq-answer">
+                The dashboard reads your saved risk tier and applies preset percentages to your savings amount, then shows the resulting stock/crypto/bond split.
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button type="button" class="faq-question">
+                <span style="display:flex; align-items:center; gap:10px;">
+                  <span class="faq-icon" aria-hidden="true">✓</span>
+                  Where is my data stored?
+                </span>
+                <span aria-hidden="true" style="color:var(--muted); font-weight:900;">+</span>
+              </button>
+              <div class="faq-answer">
+                In SQLite. Each user has an id, username, password_hash, and a risk_level (saved after quiz submission).
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button type="button" class="faq-question">
+                <span style="display:flex; align-items:center; gap:10px;">
+                  <span class="faq-icon" aria-hidden="true">🔒</span>
+                  Is my password stored securely?
+                </span>
+                <span aria-hidden="true" style="color:var(--muted); font-weight:900;">+</span>
+              </button>
+              <div class="faq-answer">
+                Passwords are hashed before being saved (simple hashing for now—no JWTs yet), so the raw password isn’t stored in the database.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container">
+        <div class="cta-banner" aria-label="Call to action">
+          <h2>Ready to Start Building Wealth?</h2>
+          <p>Join thousands of investors across the Finance Management System to plan with confidence.</p>
+          <a class="btn" href="signup.html" style="background:#fff;color:var(--cta-blue);">Create Your Portfolio</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div>
+          <h3>Finance Management System</h3>
+          <p>Plan smarter with a risk-aware flow powered by machine learning and a simple dashboard view.</p>
+        </div>
+        <div>
+          <h3>Product</h3>
+          <a href="quiz.html">Risk Quiz</a>
+          <a href="dashboard.html">Dashboard</a>
+        </div>
+        <div>
+          <h3>Company</h3>
+          <a href="#">About</a>
+          <a href="#">Careers</a>
+          <a href="#">Contact</a>
+        </div>
+        <div>
+          <h3>Legal</h3>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <div>© 2026 Finance Management System. All rights reserved.</div>
+        <div>Made with FastAPI + SQLite</div>
+      </div>
+    </footer>
+
+    <script>
+      // Simple FAQ accordion (vanilla JS)
+      (function () {
+        var items = document.querySelectorAll(".faq-item");
+        items.forEach(function (item) {
+          var btn = item.querySelector(".faq-question");
+          if (!btn) return;
+          btn.addEventListener("click", function () {
+            var open = item.classList.contains("is-open");
+            items.forEach(function (x) {
+              x.classList.remove("is-open");
+            });
+            item.classList.toggle("is-open", !open);
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

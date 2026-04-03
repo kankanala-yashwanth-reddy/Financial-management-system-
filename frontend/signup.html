@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign up — Finance Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="home.css" />
+  </head>
+  <body class="auth-page">
+    <main class="auth-vertical auth-glow">
+      <div class="auth-orb auth-orb--1" aria-hidden="true"></div>
+      <div class="auth-orb auth-orb--2" aria-hidden="true"></div>
+      <div class="auth-orb auth-orb--3" aria-hidden="true"></div>
+      <section class="auth-card">
+        <h1 class="auth-title">Create Your Account</h1>
+        <p class="auth-subtitle">Start your journey to financial freedom</p>
+
+        <div id="signup-alert" class="alert alert-error" role="alert"></div>
+        <div id="signup-ok" class="alert alert-success" role="status"></div>
+
+        <form id="signup-form">
+          <label for="fullName">Full Name</label>
+          <input id="fullName" name="fullName" type="text" placeholder="John Doe" autocomplete="name" required />
+
+          <label for="email">Email Address</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required />
+
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" placeholder="••••••••" autocomplete="new-password" required />
+
+          <label for="confirmPassword">Confirm Password</label>
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            placeholder="••••••••"
+            autocomplete="new-password"
+            required
+          />
+
+          <button type="submit" class="btn btn-primary auth-submit">Create Account</button>
+        </form>
+
+        <p class="auth-switch">
+          Already have an account? <a href="login.html">Sign In</a>
+        </p>
+      </section>
+    </main>
+
+    <script src="api.js"></script>
+    <script>
+      function show(el, msg, isError) {
+        el.textContent = msg || "";
+        el.classList.toggle("show", !!msg);
+        el.classList.toggle("alert-error", !!isError);
+        el.classList.toggle("alert-success", !isError && !!msg);
+      }
+
+      document.getElementById("signup-form").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var err = document.getElementById("signup-alert");
+        var ok = document.getElementById("signup-ok");
+        err.classList.remove("show", "alert-error");
+        err.textContent = "";
+        ok.classList.remove("show", "alert-success");
+        ok.textContent = "";
+
+        var fd = new FormData(e.target);
+        var fullName = String(fd.get("fullName") || "").trim();
+        var email = String(fd.get("email") || "").trim();
+        var password = String(fd.get("password") || "");
+        var confirmPassword = String(fd.get("confirmPassword") || "");
+
+        if (!fullName) {
+          show(err, "Please enter your full name.", true);
+          return;
+        }
+        if (!email) {
+          show(err, "Please enter your email address.", true);
+          return;
+        }
+        if (password.length < 4) {
+          show(err, "Password is too short.", true);
+          return;
+        }
+        if (password !== confirmPassword) {
+          show(err, "Passwords do not match.", true);
+          return;
+        }
+
+        try {
+          var data = await fmsApiPost("/register", { username: email, password: password });
+          fmsStorage.setSession(data.user_id, data.username);
+          show(ok, "Success — continuing to inputs…", false);
+          setTimeout(function () {
+            window.location.href = "quiz-page1.html";
+          }, 600);
+        } catch (x) {
+          show(err, x.message || "Sign up failed", true);
+        }
+      });
+    </script>
+  </body>
+</html>

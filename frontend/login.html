@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log in — Finance Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="home.css" />
+  </head>
+  <body class="auth-page">
+    <main class="auth-vertical auth-glow">
+      <div class="auth-orb auth-orb--1" aria-hidden="true"></div>
+      <div class="auth-orb auth-orb--2" aria-hidden="true"></div>
+      <div class="auth-orb auth-orb--3" aria-hidden="true"></div>
+      <section class="auth-card">
+        <h1 class="auth-title">Welcome Back</h1>
+        <p class="auth-subtitle">Sign in to continue to your dashboard and quiz</p>
+
+        <div id="signin-alert" class="alert alert-error" role="alert"></div>
+
+        <form id="signin-form">
+          <label for="si-user">Email or username</label>
+          <input
+            id="si-user"
+            name="username"
+            type="text"
+            placeholder="you@example.com"
+            autocomplete="username"
+            required
+          />
+
+          <label for="si-pass">Password</label>
+          <input
+            id="si-pass"
+            name="password"
+            type="password"
+            placeholder="••••••••"
+            autocomplete="current-password"
+            required
+          />
+
+          <button type="submit" class="btn btn-primary auth-submit">Log in</button>
+        </form>
+
+        <p class="auth-switch">Need an account? <a href="signup.html">Sign up</a></p>
+      </section>
+    </main>
+
+    <script src="api.js"></script>
+    <script>
+      function show(el, msg, isError) {
+        el.textContent = msg || "";
+        el.classList.toggle("show", !!msg);
+        el.classList.toggle("alert-error", !!isError);
+      }
+
+      document.getElementById("signin-form").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var err = document.getElementById("signin-alert");
+        err.classList.remove("show");
+        err.textContent = "";
+
+        var fd = new FormData(e.target);
+        var username = String(fd.get("username") || "").trim();
+        var password = String(fd.get("password") || "");
+        try {
+          var data = await fmsApiPost("/login", { username: username, password: password });
+          fmsStorage.setSession(data.user_id, data.username);
+          if (data.risk_level) {
+            window.location.href = "dashboard-modern.html";
+          } else {
+            window.location.href = "quiz.html";
+          }
+        } catch (x) {
+          show(err, x.message || "Sign in failed", true);
+        }
+      });
+    </script>
+  </body>
+</html>

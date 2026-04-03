@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Risk Profile Quiz - Step 2: Investment Horizon — Finance Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .quiz-page {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .quiz-header {
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .quiz-header h1 {
+        font-size: 2.25rem;
+        margin-bottom: 0.75rem;
+        color: #1a1a1a;
+        font-weight: 800;
+        line-height: 1.3;
+      }
+
+      .quiz-header p {
+        font-size: 1.05rem;
+        color: #666;
+        line-height: 1.6;
+      }
+
+      .progress-indicator {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+
+      .progress-step {
+        flex: 1;
+        height: 6px;
+        background: #e0e0e0;
+        border-radius: 3px;
+        margin: 0 0.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .progress-step.active,
+      .progress-step.completed {
+        background: linear-gradient(90deg, #007bff 0%, #0056b3 100%);
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+      }
+
+      .progress-label {
+        font-size: 0.875rem;
+        color: #666;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.7rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        font-size: 1rem;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #fff;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        background: #f8fbff;
+      }
+
+      .form-group input:hover:not(:focus) {
+        border-color: #ccc;
+      }
+
+      .form-hint {
+        font-size: 0.875rem;
+        color: #666;
+        margin-top: 0.5rem;
+        line-height: 1.5;
+        font-weight: 500;
+      }
+
+      .info-box {
+        background: linear-gradient(135deg, #f0f7ff 0%, #e7f1ff 100%);
+        border-left: 4px solid #007bff;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+      }
+
+      .info-box p {
+        margin: 0;
+        color: #1a1a1a;
+        line-height: 1.6;
+      }
+
+      .info-box strong {
+        color: #007bff;
+        font-weight: 600;
+      }
+
+      .timeline {
+        background: #f9f9f9;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        border: 1px solid #e0e0e0;
+      }
+
+      .timeline-item {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      .timeline-item:last-child {
+        border-bottom: none;
+      }
+
+      .timeline-label {
+        font-weight: 700;
+        color: #1a1a1a;
+        font-size: 0.95rem;
+      }
+
+      .timeline-desc {
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 0.3rem;
+        line-height: 1.4;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 2rem;
+      }
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        color: white;
+        flex: 1;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover:not(:disabled) {
+        background: linear-gradient(135deg, #0056b3 0%, #003d82 100%);
+        box-shadow: 0 8px 25px rgba(0, 123, 255, 0.5);
+        transform: translateY(-2px);
+      }
+
+      .btn-primary:active:not(:disabled) {
+        transform: translateY(0);
+      }
+
+      .btn-primary:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      .btn-secondary {
+        background: #f0f0f0;
+        color: #333;
+        border: 2px solid #ddd;
+        margin-right: 0.5rem;
+        flex: 0 1 auto;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      .btn-secondary:hover:not(:disabled) {
+        background: #e0e0e0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary:active:not(:disabled) {
+        transform: translateY(0);
+      }
+
+      .alert {
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        display: none;
+      }
+
+      .alert.show {
+        display: block;
+      }
+
+      .alert-error {
+        background: #fee;
+        color: #c33;
+        border: 1px solid #f99;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container inner">
+        <a class="logo" href="dashboard.html">Finance Management System</a>
+        <nav class="nav-links">
+          <a href="dashboard.html">Dashboard</a>
+          <a href="login.html" id="logout-link">Switch account</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container" style="max-width: 600px; margin: 3rem auto">
+      <div class="quiz-page">
+        <!-- Progress Indicator -->
+        <div>
+          <div class="progress-label">Step 2 of 3 - Investment Timeline</div>
+          <div style="display: flex; gap: 0.75rem">
+            <div class="progress-step completed"></div>
+            <div class="progress-step active"></div>
+            <div class="progress-step"></div>
+          </div>
+        </div>
+
+        <!-- Alert -->
+        <div id="quiz-alert" class="alert alert-error" role="alert"></div>
+
+        <!-- Header -->
+        <div class="quiz-header">
+          <h1>How long will you invest?</h1>
+          <p>Your investment timeline affects which assets are best for you</p>
+        </div>
+
+        <!-- Info Box -->
+        <div class="info-box">
+          <p>
+            <strong>Why we ask:</strong> Your investment horizon determines how much market risk
+            you can take. Longer time horizons allow for more aggressive investments that can
+            recover from short-term downturns. Shorter horizons require more stable, conservative
+            investments.
+          </p>
+        </div>
+
+        <!-- Timeline Examples -->
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-label">1-3 Years (Short-term)</div>
+            <div class="timeline-desc">Buying a car, vacation fund, short-term goals</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-label">4-10 Years (Medium-term)</div>
+            <div class="timeline-desc">Home down payment, child's education starting soon</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-label">11+ Years (Long-term)</div>
+            <div class="timeline-desc">Retirement, wealth building, major future goals</div>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="form-group">
+          <label for="horizon">Investment Horizon (Years)</label>
+          <input
+            id="horizon"
+            name="horizon"
+            type="number"
+            min="1"
+            max="40"
+            value="12"
+            inputmode="numeric"
+            required
+          />
+          <p class="form-hint">Enter a number between 1 and 40 years</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="button-group">
+          <button type="button" class="btn btn-secondary" onclick="window.location.href='quiz-page1.html'" title="Go back to previous step">
+            ← Back
+          </button>
+          <button type="button" id="btn-next" class="btn btn-primary" title="Proceed to next step">Next →</button>
+        </div>
+      </div>
+    </main>
+
+    <script src="api.js"></script>
+    <script>
+      (function () {
+        const uid = fmsStorage.getUserId();
+        if (!uid) {
+          window.location.replace("login.html");
+          return;
+        }
+
+        document.getElementById("logout-link").addEventListener("click", function () {
+          fmsStorage.clear();
+        });
+
+        const horizonInput = document.getElementById("horizon");
+        const btnNext = document.getElementById("btn-next");
+        const alertEl = document.getElementById("quiz-alert");
+
+        // Load saved value from localStorage if exists
+        const savedQuiz = JSON.parse(localStorage.getItem("fms_quiz") || "{}");
+        if (savedQuiz.horizon) {
+          horizonInput.value = savedQuiz.horizon;
+        }
+
+        // Verify we came from page 1
+        if (!savedQuiz.age) {
+          window.location.href = "quiz-page1.html";
+          return;
+        }
+
+        function showError(msg) {
+          alertEl.textContent = msg;
+          alertEl.classList.toggle("show", !!msg);
+        }
+
+        function validateHorizon() {
+          const horizon = parseInt(horizonInput.value, 10);
+          if (isNaN(horizon) || horizon < 1 || horizon > 40) {
+            showError("Please enter an investment horizon between 1 and 40 years");
+            return false;
+          }
+          return true;
+        }
+
+        btnNext.addEventListener("click", function () {
+          showError("");
+          if (!validateHorizon()) {
+            return;
+          }
+
+          // Save to localStorage
+          const quiz = JSON.parse(localStorage.getItem("fms_quiz") || "{}");
+          quiz.horizon = parseInt(horizonInput.value, 10);
+          localStorage.setItem("fms_quiz", JSON.stringify(quiz));
+
+          // Go to next page
+          window.location.href = "quiz-page3.html";
+        });
+
+        horizonInput.addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            btnNext.click();
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

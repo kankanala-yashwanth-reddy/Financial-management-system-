@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Risk Profile Quiz - Step 3: Risk Tolerance — Finance Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .quiz-page {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .quiz-header {
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .quiz-header h1 {
+        font-size: 2.25rem;
+        margin-bottom: 0.75rem;
+        color: #1a1a1a;
+        font-weight: 800;
+        line-height: 1.3;
+      }
+
+      .quiz-header p {
+        font-size: 1.05rem;
+        color: #666;
+        line-height: 1.6;
+      }
+
+      .progress-indicator {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+
+      .progress-step {
+        flex: 1;
+        height: 6px;
+        background: #e0e0e0;
+        border-radius: 3px;
+        margin: 0 0.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .progress-step.active,
+      .progress-step.completed {
+        background: linear-gradient(90deg, #007bff 0%, #0056b3 100%);
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+      }
+
+      .progress-label {
+        font-size: 0.875rem;
+        color: #666;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        color: #1a1a1a;
+      }
+
+      .range-slider {
+        width: 100%;
+        height: 8px;
+        border-radius: 4px;
+        background: linear-gradient(to right, #e0e0e0 0%, #e0e0e0 100%);
+        outline: none;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      .range-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+        border: 2px solid #fff;
+      }
+
+      .range-slider::-webkit-slider-thumb:hover {
+        background: linear-gradient(135deg, #0056b3 0%, #003d82 100%);
+        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.6);
+        transform: scale(1.1);
+      }
+
+      .range-slider::-moz-range-thumb {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        cursor: pointer;
+        border: 2px solid #fff;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+      }
+
+      .range-slider::-moz-range-thumb:hover {
+        background: linear-gradient(135deg, #0056b3 0%, #003d82 100%);
+        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.6);
+        transform: scale(1.1);
+      }
+
+      .range-display {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .range-labels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.875rem;
+        color: #666;
+        margin-top: 0.75rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .range-value-display {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .range-value-number {
+        font-size: 3rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        min-width: 100px;
+        text-align: center;
+      }
+
+      .range-value-label {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .range-value-label .label {
+        font-size: 0.875rem;
+        color: #666;
+      }
+
+      .range-value-label .value {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: #007bff;
+      }
+
+      .risk-spectrum {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .risk-card {
+        padding: 1.25rem;
+        border: 2px solid #ddd;
+        border-radius: 12px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: #fff;
+      }
+
+      .risk-card:hover {
+        border-color: #007bff;
+        background: #f0f7ff;
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 123, 255, 0.2);
+      }
+
+      .risk-card.low {
+        border-color: #28a745;
+        background: #fff;
+      }
+
+      .risk-card.low:hover {
+        background: #f1f9f1;
+        border-color: #1a7a2b;
+        box-shadow: 0 8px 16px rgba(40, 167, 69, 0.2);
+      }
+
+      .risk-card.medium {
+        border-color: #ffc107;
+        background: #fff;
+      }
+
+      .risk-card.medium:hover {
+        background: #fffbf0;
+        border-color: #cc9900;
+        box-shadow: 0 8px 16px rgba(255, 193, 7, 0.2);
+      }
+
+      .risk-card.high {
+        border-color: #dc3545;
+        background: #fff;
+      }
+
+      .risk-card.high:hover {
+        background: #fff5f5;
+        border-color: #bb2d3b;
+        box-shadow: 0 8px 16px rgba(220, 53, 69, 0.2);
+      }
+
+      .risk-label {
+        font-weight: 700;
+        font-size: 0.95rem;
+        margin-bottom: 0.3rem;
+      }
+
+      .risk-desc {
+        font-size: 0.8rem;
+        color: #666;
+        font-weight: 500;
+      }
+
+      .info-box {
+        background: linear-gradient(135deg, #f0f7ff 0%, #e7f1ff 100%);
+        border-left: 4px solid #007bff;
+        padding: 1rem 1.25rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+      }
+
+      .info-box p {
+        margin: 0;
+        color: #1a1a1a;
+        line-height: 1.6;
+      }
+
+      .info-box strong {
+        color: #007bff;
+        font-weight: 600;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 2rem;
+      }
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        color: white;
+        flex: 1;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+      }
+
+      .btn-primary:hover:not(:disabled) {
+        background: linear-gradient(135deg, #0056b3 0%, #003d82 100%);
+        box-shadow: 0 8px 25px rgba(0, 123, 255, 0.5);
+        transform: translateY(-2px);
+      }
+
+      .btn-primary:active:not(:disabled) {
+        transform: translateY(0);
+      }
+
+      .btn-primary:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      .btn-secondary {
+        background: #f0f0f0;
+        color: #333;
+        border: 2px solid #ddd;
+        margin-right: 0.5rem;
+        flex: 0 1 auto;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      .btn-secondary:hover:not(:disabled) {
+        background: #e0e0e0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary:active:not(:disabled) {
+        transform: translateY(0);
+      }
+
+      .btn-loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .spinner {
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top: 2px solid white;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .alert {
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        display: none;
+      }
+
+      .alert.show {
+        display: block;
+      }
+
+      .alert-error {
+        background: #fee;
+        color: #c33;
+        border: 1px solid #f99;
+      }
+
+      .alert-success {
+        background: #efe;
+        color: #3c3;
+        border: 1px solid #9f9;
+      }
+
+      .summary-box {
+        background: linear-gradient(135deg, #f9f9f9 0%, #f5f5f5 100%);
+        padding: 1.25rem;
+        border-radius: 8px;
+        margin-top: 1.5rem;
+        border-left: 4px solid #007bff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .summary-box h3 {
+        margin: 0 0 0.75rem 0;
+        font-size: 0.95rem;
+        color: #1a1a1a;
+        font-weight: 700;
+      }
+
+      .summary-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      .summary-item label {
+        color: #666;
+        font-weight: 500;
+      }
+
+      .summary-item value {
+        font-weight: 700;
+        color: #007bff;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container inner">
+        <a class="logo" href="dashboard.html">Finance Management System</a>
+        <nav class="nav-links">
+          <a href="dashboard.html">Dashboard</a>
+          <a href="login.html" id="logout-link">Switch account</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container" style="max-width: 600px; margin: 3rem auto">
+      <div class="quiz-page">
+        <!-- Progress Indicator -->
+        <div>
+          <div class="progress-label">Step 3 of 3 - Risk Tolerance</div>
+          <div style="display: flex; gap: 0.75rem">
+            <div class="progress-step completed"></div>
+            <div class="progress-step completed"></div>
+            <div class="progress-step active"></div>
+          </div>
+        </div>
+
+        <!-- Alert -->
+        <div id="quiz-alert" class="alert alert-error" role="alert"></div>
+
+        <!-- Header -->
+        <div class="quiz-header">
+          <h1>What's your comfort level with risk?</h1>
+          <p>This determines how aggressively we'll invest your money</p>
+        </div>
+
+        <!-- Info Box -->
+        <div class="info-box">
+          <p>
+            <strong>Why we ask:</strong> Risk tolerance is how comfortable you are with market
+            fluctuations. Higher risk tolerance allows for greater returns but also more volatility.
+            Lower tolerance focuses on stability but may result in lower returns.
+          </p>
+        </div>
+
+        <!-- Risk Spectrum Cards -->
+        <div class="risk-spectrum">
+          <div class="risk-card low" data-value="1">
+            <div class="risk-label">Conservative</div>
+            <div class="risk-desc">Minimal volatility</div>
+          </div>
+          <div class="risk-card medium" data-value="5">
+            <div class="risk-label">Moderate</div>
+            <div class="risk-desc">Balanced approach</div>
+          </div>
+          <div class="risk-card high" data-value="10">
+            <div class="risk-label">Aggressive</div>
+            <div class="risk-desc">High growth</div>
+          </div>
+        </div>
+
+        <!-- Range Slider -->
+        <div class="form-group">
+          <label for="tolerance">Risk Tolerance Score</label>
+          <div class="range-value-display">
+            <div class="range-value-number" id="tolerance-display">6</div>
+            <div class="range-value-label">
+              <div class="label">Your Score</div>
+              <div class="value" id="tolerance-label">Moderate Risk</div>
+            </div>
+          </div>
+          <input
+            id="tolerance"
+            name="tolerance"
+            type="range"
+            min="1"
+            max="10"
+            step="1"
+            value="6"
+            class="range-slider"
+          />
+          <div class="range-labels">
+            <span>Conservative</span>
+            <span>Aggressive</span>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="summary-box">
+          <h3>Your Profile Summary</h3>
+          <div class="summary-item">
+            <label>Age:</label>
+            <value id="summary-age">-</value>
+          </div>
+          <div class="summary-item">
+            <label>Investment Horizon:</label>
+            <value id="summary-horizon">-</value>
+          </div>
+          <div class="summary-item">
+            <label>Risk Tolerance:</label>
+            <value id="summary-tolerance">-</value>
+          </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="button-group">
+          <button type="button" class="btn btn-secondary" onclick="window.location.href='quiz-page2.html'" title="Go back to previous step">
+            ← Back
+          </button>
+          <button type="button" id="btn-submit" class="btn btn-primary" title="Submit your profile and analyze your risk">Complete & Analyze →</button>
+        </div>
+      </div>
+    </main>
+
+    <script src="api.js"></script>
+    <script>
+      (function () {
+        const uid = fmsStorage.getUserId();
+        if (!uid) {
+          window.location.replace("login.html");
+          return;
+        }
+
+        document.getElementById("logout-link").addEventListener("click", function () {
+          fmsStorage.clear();
+        });
+
+        const toleranceSlider = document.getElementById("tolerance");
+        const toleranceDisplay = document.getElementById("tolerance-display");
+        const toleranceLabel = document.getElementById("tolerance-label");
+        const btnSubmit = document.getElementById("btn-submit");
+        const alertEl = document.getElementById("quiz-alert");
+
+        // Load saved data from localStorage
+        const savedQuiz = JSON.parse(localStorage.getItem("fms_quiz") || "{}");
+
+        // Verify we came from page 2
+        if (!savedQuiz.age || !savedQuiz.horizon) {
+          window.location.href = "quiz-page1.html";
+          return;
+        }
+
+        if (savedQuiz.tolerance) {
+          toleranceSlider.value = savedQuiz.tolerance;
+        }
+
+        // Update summary
+        document.getElementById("summary-age").textContent = savedQuiz.age + " years";
+        document.getElementById("summary-horizon").textContent = savedQuiz.horizon + " years";
+
+        function getRiskLabel(value) {
+          value = parseInt(value, 10);
+          if (value <= 3) return "Conservative";
+          if (value <= 6) return "Moderate";
+          return "Aggressive";
+        }
+
+        function updateDisplay() {
+          const value = toleranceSlider.value;
+          toleranceDisplay.textContent = value;
+          toleranceLabel.textContent = getRiskLabel(value);
+          document.getElementById("summary-tolerance").textContent = getRiskLabel(value) + " (Score: " + value + ")";
+        }
+
+        toleranceSlider.addEventListener("input", updateDisplay);
+
+        // Risk card clicks
+        document.querySelectorAll(".risk-card").forEach(function (card) {
+          card.addEventListener("click", function () {
+            toleranceSlider.value = this.dataset.value;
+            updateDisplay();
+          });
+        });
+
+        function showError(msg) {
+          alertEl.textContent = msg;
+          alertEl.classList.toggle("show", !!msg);
+        }
+
+        btnSubmit.addEventListener("click", async function () {
+          showError("");
+          btnSubmit.disabled = true;
+
+          try {
+            const quiz = JSON.parse(localStorage.getItem("fms_quiz") || "{}");
+            quiz.tolerance = parseInt(toleranceSlider.value, 10);
+            localStorage.setItem("fms_quiz", JSON.stringify(quiz));
+
+            btnSubmit.innerHTML = '<span class="spinner"></span> Analyzing your profile...';
+
+            // Submit to backend
+            const response = await fmsApiPost("/submit_quiz", {
+              user_id: uid,
+              age: quiz.age,
+              investment_horizon_years: quiz.horizon,
+              risk_tolerance_score: quiz.tolerance,
+            });
+
+            // Clear quiz data
+            localStorage.removeItem("fms_quiz");
+
+            // Redirect to dashboard
+            window.location.href = "dashboard-modern.html";
+          } catch (x) {
+            showError(x.message || "Failed to submit quiz. Please try again.");
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = "Complete & Analyze →";
+          }
+        });
+
+        // Initialize display
+        updateDisplay();
+      })();
+    </script>
+  </body>
+</html>
