@@ -119,7 +119,7 @@ class DashboardApp {
         // Check authentication
         this.userId = fmsStorage.getUserId();
         if (!this.userId) {
-            window.location.replace('login.html');
+            window.location.replace('login-B.html');
             return;
         }
 

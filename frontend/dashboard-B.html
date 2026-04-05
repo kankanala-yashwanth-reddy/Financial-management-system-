@@ -10,15 +10,15 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles-B.css" />
   </head>
   <body>
     <header class="site-header">
       <div class="container inner">
-        <a class="logo" href="dashboard.html">Finance Management System</a>
+        <a class="logo" href="dashboard-B.html">Finance Management System</a>
         <nav class="nav-links">
-          <a href="quiz-page1.html">Retake quiz</a>
-          <a href="login.html" id="nav-switch">Switch account</a>
+          <a href="quiz-page1-B.html">Retake quiz</a>
+          <a href="login-B.html" id="nav-switch">Switch account</a>
         </nav>
       </div>
     </header>
@@ -103,12 +103,12 @@
       <div class="container">Allocations are illustrative; not financial advice.</div>
     </footer>
 
-    <script src="api.js"></script>
+    <script src="api-B.js"></script>
     <script>
       (function () {
         var uid = fmsStorage.getUserId();
         if (!uid) {
-          window.location.replace("login.html");
+          window.location.replace("login-B.html");
           return;
         }
 
@@ -265,7 +265,7 @@
               x.message.toLowerCase().indexOf("quiz") >= 0
             ) {
               setTimeout(function () {
-                window.location.href = "quiz.html";
+                window.location.href = "quiz-B.html";
               }, 1200);
             }
           }

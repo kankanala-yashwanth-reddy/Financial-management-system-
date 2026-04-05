@@ -1,28 +1,8 @@
-import sqlite3
-from datetime import datetime
+from __future__ import annotations
 
-conn = sqlite3.connect('fms.db')
-conn.row_factory = sqlite3.Row
-cursor = conn.cursor()
+import runpy
+from pathlib import Path
 
-# Get all users
-cursor.execute('SELECT * FROM users')
-users = cursor.fetchall()
 
-print('=' * 70)
-print('FINANCE MANAGEMENT SYSTEM - USER ACCOUNT DATABASE')
-print('=' * 70)
-print(f'\n📊 TOTAL ACCOUNTS IN SYSTEM: {len(users)}')
-print(f'\n📅 TODAY\'S DATE: April 3, 2026')
-print('\n' + '-' * 70)
-print(f'{"ID":<5} {"USERNAME":<40} {"RISK LEVEL":<15}')
-print('-' * 70)
-
-for user in users:
-    risk_level = user['risk_level'] if user['risk_level'] else 'Not Set'
-    print(f'{user["id"]:<5} {user["username"]:<40} {risk_level:<15}')
-
-print('-' * 70)
-print(f'\n✅ Total Accounts: {len(users)}')
-
-conn.close()
+if __name__ == "__main__":
+    runpy.run_path(str(Path(__file__).resolve().with_name("query_users-C.py")), run_name="__main__")

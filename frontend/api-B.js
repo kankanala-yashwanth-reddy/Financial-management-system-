@@ -1,5 +1,9 @@
 (function () {
-  window.FMS_API_BASE = window.FMS_API_BASE || "https://web-production-036e6.up.railway.app";
+  window.FMS_API_BASE =
+    window.FMS_API_BASE ||
+    (window.location.origin && window.location.origin !== "null"
+      ? window.location.origin
+      : "http://127.0.0.1:8000");
 
   function formatDetail(detail) {
     if (detail == null) return "Request failed";

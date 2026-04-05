@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="home.css" />
+    <link rel="stylesheet" href="home-B.css" />
   </head>
   <body class="auth-page">
     <main class="auth-vertical auth-glow">
@@ -47,11 +47,11 @@
           <button type="submit" class="btn btn-primary auth-submit">Log in</button>
         </form>
 
-        <p class="auth-switch">Need an account? <a href="signup.html">Sign up</a></p>
+        <p class="auth-switch">Need an account? <a href="signup-B.html">Sign up</a></p>
       </section>
     </main>
 
-    <script src="api.js"></script>
+    <script src="api-B.js"></script>
     <script>
       function show(el, msg, isError) {
         el.textContent = msg || "";
@@ -72,9 +72,9 @@
           var data = await fmsApiPost("/login", { username: username, password: password });
           fmsStorage.setSession(data.user_id, data.username);
           if (data.risk_level) {
-            window.location.href = "dashboard-modern.html";
+            window.location.href = "dashboard-modern-B.html";
           } else {
-            window.location.href = "quiz.html";
+            window.location.href = "quiz-B.html";
           }
         } catch (x) {
           show(err, x.message || "Sign in failed", true);

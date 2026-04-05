@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="home.css" />
+    <link rel="stylesheet" href="home-B.css" />
   </head>
   <body class="auth-page">
     <main class="auth-vertical auth-glow">
@@ -48,12 +48,12 @@
         </form>
 
         <p class="auth-switch">
-          Already have an account? <a href="login.html">Sign In</a>
+          Already have an account? <a href="login-B.html">Sign In</a>
         </p>
       </section>
     </main>
 
-    <script src="api.js"></script>
+    <script src="api-B.js"></script>
     <script>
       function show(el, msg, isError) {
         el.textContent = msg || "";
@@ -99,7 +99,7 @@
           fmsStorage.setSession(data.user_id, data.username);
           show(ok, "Success — continuing to inputs…", false);
           setTimeout(function () {
-            window.location.href = "quiz-page1.html";
+            window.location.href = "quiz-page1-B.html";
           }, 600);
         } catch (x) {
           show(err, x.message || "Sign up failed", true);

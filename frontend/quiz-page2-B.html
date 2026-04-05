@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles-B.css" />
     <style>
       .quiz-page {
         display: flex;
@@ -242,10 +242,10 @@
   <body>
     <header class="site-header">
       <div class="container inner">
-        <a class="logo" href="dashboard.html">Finance Management System</a>
+        <a class="logo" href="dashboard-B.html">Finance Management System</a>
         <nav class="nav-links">
-          <a href="dashboard.html">Dashboard</a>
-          <a href="login.html" id="logout-link">Switch account</a>
+          <a href="dashboard-B.html">Dashboard</a>
+          <a href="login-B.html" id="logout-link">Switch account</a>
         </nav>
       </div>
     </header>
@@ -315,7 +315,7 @@
 
         <!-- Navigation -->
         <div class="button-group">
-          <button type="button" class="btn btn-secondary" onclick="window.location.href='quiz-page1.html'" title="Go back to previous step">
+          <button type="button" class="btn btn-secondary" onclick="window.location.href='quiz-page1-B.html'" title="Go back to previous step">
             ← Back
           </button>
           <button type="button" id="btn-next" class="btn btn-primary" title="Proceed to next step">Next →</button>
@@ -323,12 +323,12 @@
       </div>
     </main>
 
-    <script src="api.js"></script>
+    <script src="api-B.js"></script>
     <script>
       (function () {
         const uid = fmsStorage.getUserId();
         if (!uid) {
-          window.location.replace("login.html");
+          window.location.replace("login-B.html");
           return;
         }
 
@@ -348,7 +348,7 @@
 
         // Verify we came from page 1
         if (!savedQuiz.age) {
-          window.location.href = "quiz-page1.html";
+          window.location.href = "quiz-page1-B.html";
           return;
         }
 
@@ -378,7 +378,7 @@
           localStorage.setItem("fms_quiz", JSON.stringify(quiz));
 
           // Go to next page
-          window.location.href = "quiz-page3.html";
+          window.location.href = "quiz-page3-B.html";
         });
 
         horizonInput.addEventListener("keypress", function (e) {
